@@ -57,6 +57,7 @@ namespace SMS.Web.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles="admin")]
+        
         public IActionResult Create([Bind("Name, Email, Course, Age, Grade, PhotoUrl")]  Student s)
         {
             // check email is unique for this student

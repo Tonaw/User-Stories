@@ -9,9 +9,44 @@
 
     <!-- TBC - use a dl to display the ticket details -->
 
+    <div class="row">
+    <!-- Details -->
+    <div class="col-8 card rounded shadow p-3">
+        <dl class="row">
+            <dt class="col-5">Id</dt>
+            <dd class="col-7">@Model.Id</dd>
+
+            <dt class="col-5">Created On</dt>
+            <dd class="col-7">@Model.CreatedOn</dd>
+
+            <dt class="col-5">Issue</dt>
+            <dd class="col-7">@Model.Issue</dd>
+
+            <dt class="col-5">Created By</dt>
+            <dd class="col-7">@Model.Student.Name</dd>
+
+            @if (!Model.Active)
+            {
+            <span>
+            <dt class="col-5">Resolved On</dt>
+            <dd class="col-7">@Model.ResolvedOn</dd>
+
+            <dt class="col-5">Resolution</dt>
+            <dd class="col-7">@Model.Resolution</dd>
+            </span>
+            }
+        </dl>
+     
+
+</div>
+
     <div class="mt-4">           
        
         <!-- TBC - add a button to toggle the close ticket modal (_CloseModal.cshtml) -->
+         <button asp-condition=@User.HasOneOfRoles("admin, manager")  disabled=@(!Model.Active) class="btn btn-sm btn-danger" 
+                        data-bs-toggle="modal" data-bs-target="#closeTicketModal">
+                    <i class="bi bi-trash"></i> Close
+        </button>
 
         <a class="btn btn-link" asp-action="Index">Cancel</a>
     </div>

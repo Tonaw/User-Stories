@@ -21,7 +21,7 @@ namespace SMS.Web.Controllers
         public IActionResult Index()
         {
             // return open tickets
-            var tickets = svc.GetOpenTickets();
+            var tickets = svc.GetAllTickets();
 
             return View(tickets);
         }
@@ -31,9 +31,10 @@ namespace SMS.Web.Controllers
         {                  
             // TBC - perform query using values in view model and assign 
             //       results to viewmodel Tickets property
+            m.Tickets = svc.SearchTickets(m.Range, m.Query);
 
             // TBC -- return the View and pass the viewmodel as a param
-            return null;
+            return View(m);
         }        
              
         // GET/ticket/{id}
@@ -52,10 +53,10 @@ namespace SMS.Web.Controllers
         // POST /ticket/close/{id}
         [HttpPost]
         [Authorize(Roles="admin,manager")]
-        public IActionResult Close(/* TBC - use bind for Id and Resolution */ Ticket t)
+        public IActionResult Close([Bind("Id, Resolution")] Ticket t)
         {
             // close ticket via service
-            var ticket = svc.CloseTicket(t.Id); // TBC add resolution from the model */ ;
+            var ticket = svc.CloseTicket(t.Id, t.Resolution); // TBC add resolution from the model */ ;
             if (ticket == null)
             {
                 Alert("Ticket Not Found", AlertType.warning);                               
